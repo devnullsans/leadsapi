@@ -5,7 +5,7 @@ const usersSchema = new mongoose.Schema({
 	email: {
 		type: String,
 		validate: {
-			validator: async email => 0 === (await Users.where({ email }).countDocuments()),
+			validator: async email => 0 === (await User.where({ email }).countDocuments()),
 			message: ({ value }) => `Email ${value} is already registered.`
 		}
 	},
@@ -14,6 +14,14 @@ const usersSchema = new mongoose.Schema({
 	},
 	password: {
 		type: String
+	},
+	verified: {
+		type: Boolean,
+		default: false
+	},
+	otp: {
+		type: String,
+		default: ""
 	}
 }, {
 	timestamps: true
@@ -30,6 +38,6 @@ usersSchema.pre('save', async function (next) {
 	}
 })
 
-const Users = mongoose.model("Users", usersSchema);
+const User = mongoose.model("User", usersSchema);
 
-module.exports = Users;
+module.exports = User;

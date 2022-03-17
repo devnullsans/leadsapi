@@ -18,6 +18,10 @@ type Query {
 
 	users: [User!]!
 
+	test(
+		filter: String!
+		document: String!
+	): Boolean
 }
 
 type Mutation {
@@ -27,6 +31,11 @@ type Mutation {
 		email: String!
 		password: String!
 	): User
+
+	verifyUser(
+		id: ID!
+		otp: String!
+	): String
 
 }
 `;
