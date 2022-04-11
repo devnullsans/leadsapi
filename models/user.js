@@ -4,24 +4,35 @@ const bcrypt = require("bcrypt");
 const usersSchema = new mongoose.Schema({
 	email: {
 		type: String,
+		lowercase: true,
+		trim: true,
+		required: true,
+		minlength: 6,
+		maxlength: 256,
 		validate: {
 			validator: async email => 0 === (await User.where({ email }).countDocuments()),
 			message: ({ value }) => `Email ${value} is already registered.`
 		}
 	},
 	name: {
-		type: String
+		type: String,
+		trim: true,
+		maxlength: 256,
 	},
 	password: {
-		type: String
+		type: String,
+		trim: true,
+		minlength: 8,
+		maxlength: 256
 	},
-	verified: {
-		type: Boolean,
-		default: false
+	info: {
+		verified: { type: Boolean, default: false },
+		locked: { type: Date, default: Date.now }
 	},
 	otp: {
-		type: String,
-		default: ""
+		code: { type: String, default: "" },
+		ttl: { type: Date, default: Date.now },
+		try: { type: Number, default: 0 }
 	}
 }, {
 	timestamps: true
@@ -36,7 +47,7 @@ usersSchema.pre('save', async function (next) {
 		}
 		next();
 	}
-})
+});
 
 const User = mongoose.model("User", usersSchema);
 

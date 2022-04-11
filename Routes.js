@@ -1,6 +1,6 @@
 const { graphqlUploadExpress } = require("graphql-upload");
 const { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema/schema');
+const schema = require('./graphql/schema');
 const router = require('express').Router();
 
 router.get('/', graphqlHTTP({

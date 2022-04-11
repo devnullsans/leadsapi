@@ -13,15 +13,7 @@ type User {
 }
 
 type Query {
-
-	user(id: ID!): User
-
-	users: [User!]!
-
-	test(
-		filter: String!
-		document: String!
-	): Boolean
+	test: Boolean
 }
 
 type Mutation {
@@ -35,6 +27,11 @@ type Mutation {
 	verifyUser(
 		id: ID!
 		otp: String!
+	): Boolean
+
+	loginUser(
+		email: String!
+		password: String!
 	): String
 
 }

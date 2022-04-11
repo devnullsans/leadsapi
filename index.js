@@ -11,17 +11,17 @@ app.use(
 			.setHeader('Access-Control-Allow-Origin', '*')
 			.setHeader('Access-Control-Allow-Methods', '*')
 			.setHeader('Access-Control-Allow-Headers', '*');
-		next();// setTimeout(() => next(), 1e2);
+		setImmediate(next);
 	},
 	jwt({
 		secret: process.env.JWTKEY,
 		algorithms: ['HS256'],
 		credentialsRequired: false
 	}),
-	require('./graphql')
+	require('./Routes')
 );
 
-
-mongoose.connect("mongodb://localhost:27017/leads", { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => app.listen(process.env.PORT ?? 8080, console.log(`Express-Graphql server running on port ${process.env.PORT ?? 8080}`)))
+const port = process.env.PORT ?? 8080;
+mongoose.connect("mongodb://localhost:27017/appdata", { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => app.listen(port, console.log(`Express-Graphql server running on port ${port}`)))
 .catch(e => { throw e; });
